@@ -1,0 +1,1 @@
+/var/www/html/takuzu-10a/game.h

@@ -1,0 +1,51 @@
+/* pour déterminer les propriétés globales
+   (à faire au début pour ne pas perturber le reste) :
+
+* {
+    blabla : blabla;
+}
+
+*/
+
+body {
+    background-image: url("annexe/betterback.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: rgb(253, 255, 255);
+    font-family: Georgia;
+    font-size: 150%;  /* =1.5em */
+    text-align: center; /* centrage horizontal des boutons et du texte */
+}
+
+h1 {
+    color: #030614;
+    background: rgb(152, 152, 213);
+    border: 5px solid rgb(215, 27, 21);
+    padding: 10px 20px; /* espace intérieur */
+    text-align: center; /* centrage du texte */
+    border-radius: 25px; /* rayon des coins arrondis */
+}
+
+canvas {
+    background: rgb(152, 152, 213);
+    color: #030614;
+    border: 10px solid rgb(26, 144, 116);
+    display: flex; /* jolies marges */
+    margin: 0 auto; /* centrage du canvas */
+}
+
+button {
+    background: rgb(152, 152, 213);
+    color: #030614;
+    border: 5px solid rgb(215, 27, 21);
+    font-family: Georgia;
+    font-weight: bold;
+    font-size: 150%;
+    padding: 10px 20px; /* espace intérieur */
+    text-align: center; /* centrage du texte */
+    border-radius: 25px; /* rayon des coins arrondis */
+    display: inline-block;
+    margin: 0 auto;
+}
+
+

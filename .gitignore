@@ -1,0 +1,18 @@
+
+# generic files
+*.o
+*.a
+*~
+*.bak
+build/
+html/
+.vscode/
+CMakeCache.txt
+CMakeFiles/
+Testing/
+Makefile
+DartConfiguration.tcl
+CTestTestfile.cmake
+cmake_install.cmake
+c_cpp_properties.json
+.vscode/launch.json
