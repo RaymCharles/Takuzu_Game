@@ -26,7 +26,7 @@ Bienvenue sur le projet **Takuzu Game** ! Ce jeu de logique solo, aussi connu so
 sudo apt install libsdl2-dev libsdl2-image-dev libsdl2-ttf-dev git gcc cmake
 # Clonez le projet puis compilez :
 git clone git@github.com:RaymCharles/Takuzu_Game.git
-cd takuzu-10a
+cd Takuzu_Game
 mkdir build && cd build
 cmake ..
 make
