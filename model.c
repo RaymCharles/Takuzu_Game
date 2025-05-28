@@ -231,32 +231,72 @@ void render(SDL_Window *win, SDL_Renderer *ren, Env *env) {
     } 
   } 
 
+  // Affichage bandeau victoire/défaite (retour à l'ancien comportement)
+  for (int i = 0 ; i < game_nb_rows(env->g) ; i++){
+    for (int j = 0 ; j < game_nb_cols(env->g);j++){
+      rect.x = env->marge_left + j*grid_hori;   // Pour centrer le BAMBI
+      rect.y = env->marge_top + env->marge_title + i*grid_verti;
+      rect.w = grid_hori;
+      rect.h = grid_verti;
+      if (game_get_square(env->g, i , j)==S_ONE ){
+        if (game_has_error(env->g,i,j)){
+          SDL_RenderCopy(ren, env->bambi_colore, NULL, &rect);
+        } 
+        else{ 
+        SDL_RenderCopy(ren, env->bambi2, NULL, &rect);
+        } 
+      }
+      else if (game_get_square(env->g, i , j) == S_ZERO ){
+        if (game_has_error(env->g,i,j)){
+          SDL_RenderCopy(ren, env->panpan2_colore, NULL, &rect);
+        } 
+        else{
+          SDL_RenderCopy(ren, env->panpan3, NULL, &rect);
+        } 
+        
+      } 
+      else if (game_get_square(env->g, i , j) == S_IMMUTABLE_ONE){
+        SDL_RenderCopy(ren, env->bambi2, NULL, &rect);
+      } 
+      else if (game_get_square(env->g, i , j) == S_IMMUTABLE_ZERO){
+        SDL_RenderCopy(ren, env->panpan3, NULL, &rect);
+      }
+      if (game_is_over(env->g)) {
+        // render TEXT_OVER texture
+        SDL_QueryTexture(env->text_over, NULL, NULL, &rect.w, &rect.h);
+        rect.x = (width - env->marge_col) / 2;
+        rect.y = (env->marge_title + env->marge_top ) / 1.5;
+        SDL_RenderCopy(ren, env->text_over, NULL, &rect);
+        SDL_SetRenderDrawColor(ren, 0, 80, 70, 150);
+      }
+    } 
+  } 
+
   int space = height / 5; //4 correspondant au nombre de boutons
-  
-    int button_size =env->marge_col / 1.9;
-    rect.w = button_size;
-    rect.h = button_size;
-    rect.x = width - env->marge_col/2 -rect.h/2 ;   // boutton undo
-    rect.y = space;
-    SDL_RenderCopy(ren, env->undo, NULL, &rect);
+  int button_size =env->marge_col / 1.9;
+  rect.w = button_size;
+  rect.h = button_size;
+  rect.x = width - env->marge_col/2 -rect.h/2 ;   // boutton undo
+  rect.y = space;
+  SDL_RenderCopy(ren, env->undo, NULL, &rect);
 
-    rect.y = 2* space;
-    rect.w = button_size;
-    rect.h = button_size;
-    rect.x = width - env->marge_col/2-rect.h/2;   // boutton redo
-    SDL_RenderCopy(ren, env->redo, NULL, &rect);
+  rect.y = 2* space;
+  rect.w = button_size;
+  rect.h = button_size;
+  rect.x = width - env->marge_col/2-rect.h/2;   // boutton redo
+  SDL_RenderCopy(ren, env->redo, NULL, &rect);
 
-    rect.y = 3*space;
-    rect.w = button_size;
-    rect.h = button_size;
-    rect.x = width - env->marge_col/2-rect.h/2;   // boutton restart
-    SDL_RenderCopy(ren, env->restart, NULL, &rect);
+  rect.y = 3*space;
+  rect.w = button_size;
+  rect.h = button_size;
+  rect.x = width - env->marge_col/2-rect.h/2;   // boutton restart
+  SDL_RenderCopy(ren, env->restart, NULL, &rect);
 
-    rect.y = 4*space;
-    rect.w = button_size;
-    rect.h = button_size;
-    rect.x = width - env->marge_col/2-rect.h/2;   // boutton quit
-    SDL_RenderCopy(ren, env->exit, NULL, &rect);
+  rect.y = 4*space;
+  rect.w = button_size;
+  rect.h = button_size;
+  rect.x = width - env->marge_col/2-rect.h/2;   // boutton quit
+  SDL_RenderCopy(ren, env->exit, NULL, &rect);
 }
 
 /* **************************************************************** */
@@ -299,6 +339,11 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e) {
         int i = (mouse.y - env->marge_top - env->marge_title)/grid_verti;
 
         square s = game_get_square(env->g,i,j);
+        if (game_is_immutable(env->g, i, j)) {
+          printf("Case immuable : modification interdite !\n");
+          // Optionnel : jouer un son ou afficher un message graphique
+          return false;
+        }
         if (s==S_EMPTY){
           game_play_move(env->g, i, j , S_ZERO);
         } 
